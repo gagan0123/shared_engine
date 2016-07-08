@@ -1,6 +1,9 @@
 #!/bin/bash
 echo -n "Enter new username:"
 read USERNAME
+#Making POOLNAME and GROUPNAME different as it might be needed to change them to different values in future
+POOLNAME=$USERNAME
+GROUPNAME=$USERNAME
 echo -n "Enter domain:"
 read DOMAIN
 
@@ -17,16 +20,20 @@ find -type f|xargs -I file chmod 640 file
 chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 # Creating new FPM Pool for new user
-cp /etc/php5/fpm/pool.d/gagan.conf /etc/php5/fpm/pool.d/$USERNAME.conf
-sed -i "s/gagan/$USERNAME/g" /etc/php5/fpm/pool.d/$USERNAME.conf
+cp /root/tools/shared_engine/templates/php-fpm-pool.conf /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
+sed -i "s/POOLNAME/$POOLNAME/g" /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
+sed -i "s/USERNAME/$USERNAME/g" /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
+sed -i "s/GROUPNAME/$GROUPNAME/g" /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
 
 # Creating new upstream for new user in nginx
-cp /etc/nginx/conf.d/upstream-gagan.conf /etc/nginx/conf.d/upstream-$USERNAME.conf
-sed -i "s/gagan/$USERNAME/g" /etc/nginx/conf.d/upstream-$USERNAME.conf
+cp /root/tools/shared_engine/templates/nginx-upstream.conf /etc/nginx/conf.d/upstream-$POOLNAME.conf
+sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/conf.d/upstream-$POOLNAME.conf
 
-cp /etc/nginx/sites-available/template /etc/nginx/sites-available/$DOMAIN
-sed -i "s/domainname/$DOMAIN/g" /etc/nginx/sites-available/$DOMAIN
-sed -i "s/user/$USERNAME/g" /etc/nginx/sites-available/$DOMAIN
+#Creating new nginx config for the site
+# @todo make option for creation of different types of sites like WordPress or PHP only
+cp /root/tools/shared_engine/templates/nginx-php.conf /etc/nginx/sites-available/$DOMAIN
+sed -i "s/DOMAINNAME/$DOMAIN/g" /etc/nginx/sites-available/$DOMAIN
+sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/sites-available/$DOMAIN
 ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
 
 service php5-fpm reload
