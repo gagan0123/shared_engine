@@ -14,6 +14,7 @@ mkdir /home/$USERNAME/$DOMAIN
 mkdir /home/$USERNAME/$DOMAIN/htdocs
 mkdir /home/$USERNAME/$DOMAIN/logs
 
+#Fixing permissions and owner on the new domain's folder
 cd /home/$USERNAME
 find -type d|xargs -I file chmod 750 file
 find -type f|xargs -I file chmod 640 file
@@ -36,5 +37,5 @@ sed -i "s/DOMAINNAME/$DOMAIN/g" /etc/nginx/sites-available/$DOMAIN
 sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/sites-available/$DOMAIN
 ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
 
-service php5-fpm reload
+service php7.0-fpm reload
 service nginx reload
