@@ -35,6 +35,7 @@ sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/conf.d/upstream-$POOLNAME.conf
 cp /root/tools/shared_engine/templates/nginx-php.conf /etc/nginx/sites-available/$DOMAIN
 sed -i "s/DOMAINNAME/$DOMAIN/g" /etc/nginx/sites-available/$DOMAIN
 sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/sites-available/$DOMAIN
+sed -i "s/USERNAME/$USERNAME/g" /etc/nginx/sites-available/$DOMAIN
 ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
 
 service php7.0-fpm reload
