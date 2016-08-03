@@ -41,5 +41,8 @@ sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/sites-available/$DOMAIN
 sed -i "s/USERNAME/$USERNAME/g" /etc/nginx/sites-available/$DOMAIN
 ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
 
+ln -s /home/$USERNAME/$DOMAIN /var/www/$DOMAIN
+chown -h www-data:www-data /var/www/$DOMAIN
+
 service php$PHPVERSION-fpm reload
 service nginx reload
