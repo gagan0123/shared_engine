@@ -6,6 +6,9 @@ POOLNAME=$USERNAME
 GROUPNAME=$USERNAME
 echo -n "Enter domain:"
 read DOMAIN
+#echo -n "Enter PHP version to use(5.6, 7.0, 7.1):"
+#read PHPVERSION
+PHPVERSION=7.1
 
 #Creating new user and adding www-data to its group so that it can read files
 adduser --disabled-password --disabled-login --gecos "$USERNAME" $USERNAME
@@ -21,10 +24,10 @@ find -type f|xargs -I file chmod 640 file
 chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 # Creating new FPM Pool for new user
-cp /root/tools/shared_engine/templates/php-fpm-pool.conf /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
-sed -i "s/POOLNAME/$POOLNAME/g" /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
-sed -i "s/USERNAME/$USERNAME/g" /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
-sed -i "s/GROUPNAME/$GROUPNAME/g" /etc/php/7.0/fpm/pool.d/$POOLNAME.conf
+cp /root/tools/shared_engine/templates/php-fpm-pool.conf /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
+sed -i "s/POOLNAME/$POOLNAME/g" /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
+sed -i "s/USERNAME/$USERNAME/g" /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
+sed -i "s/GROUPNAME/$GROUPNAME/g" /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
 
 # Creating new upstream for new user in nginx
 cp /root/tools/shared_engine/templates/nginx-upstream.conf /etc/nginx/conf.d/upstream-$POOLNAME.conf
@@ -38,5 +41,5 @@ sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/sites-available/$DOMAIN
 sed -i "s/USERNAME/$USERNAME/g" /etc/nginx/sites-available/$DOMAIN
 ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
 
-service php7.0-fpm reload
+service php$PHPVERSION-fpm reload
 service nginx reload
