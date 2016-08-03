@@ -21,7 +21,7 @@ mkdir /home/$USERNAME/$DOMAIN/logs
 cd /home/$USERNAME
 find -type d|xargs -I file chmod 750 file
 find -type f|xargs -I file chmod 640 file
-chown -R $USERNAME:$USERNAME /home/$USERNAME
+chown -R -h $USERNAME:$USERNAME /home/$USERNAME
 
 # Creating new FPM Pool for new user
 cp /root/tools/shared_engine/templates/php-fpm-pool.conf /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
