@@ -8,7 +8,8 @@ echo -n "Enter domain:"
 read DOMAIN
 #echo -n "Enter PHP version to use(5.6, 7.0, 7.1):"
 #read PHPVERSION
-PHPVERSION=7.1
+PHPVERSION=7.0
+#We're sticking with 7.0 as its the stable release, 7.1 is beta release
 
 #Creating new user and adding www-data to its group so that it can read files
 adduser --disabled-password --disabled-login --gecos "$USERNAME" $USERNAME
@@ -19,8 +20,8 @@ mkdir /home/$USERNAME/$DOMAIN/logs
 
 #Fixing permissions and owner on the new domain's folder
 cd /home/$USERNAME
-find -type d|xargs -I file chmod 750 file
-find -type f|xargs -I file chmod 640 file
+find ./ -type d -exec chmod 750 {} \;
+find ./ -type f -exec chmod 640 {} \;
 chown -R -h $USERNAME:$USERNAME /home/$USERNAME
 
 # Creating new FPM Pool for new user
