@@ -29,10 +29,6 @@ sed -i "s/POOLNAME/$POOLNAME/g" /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
 sed -i "s/USERNAME/$USERNAME/g" /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
 sed -i "s/GROUPNAME/$GROUPNAME/g" /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
 
-# Creating new upstream for new user in nginx
-cp /root/tools/shared_engine/templates/nginx-upstream.conf /etc/nginx/conf.d/upstream-$POOLNAME.conf
-sed -i "s/POOLNAME/$POOLNAME/g" /etc/nginx/conf.d/upstream-$POOLNAME.conf
-
 #Creating new nginx config for the site
 # @todo make option for creation of different types of sites like WordPress or PHP only
 cp /root/tools/shared_engine/templates/nginx-php.conf /etc/nginx/sites-available/$DOMAIN
