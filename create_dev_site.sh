@@ -45,4 +45,5 @@ chown -h www-data:www-data /var/www/$DOMAIN
 
 service php$PHPVERSION-fpm reload
 service nginx reload
+echo "Username: $USERNAME"
 echo "Password: $HTPASS"
