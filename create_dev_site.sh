@@ -32,7 +32,7 @@ sed -i "s/GROUPNAME/$GROUPNAME/g" /etc/php/$PHPVERSION/fpm/pool.d/$POOLNAME.conf
 #Creating new nginx config for the site
 # @todo make option for creation of different types of sites like WordPress or PHP only
 HTPASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 30 | head -n 1)
-htpasswd -c /etc/nginx/auth/$DOMAIN.htpasswd $USERNAME $HTPASS
+htpasswd -bc /etc/nginx/auth/$DOMAIN.htpasswd $USERNAME $HTPASS
 certbot certonly --webroot -w /var/www/letsencrypt -d $DOMAIN
 cp /root/tools/shared_engine/templates/nginx-dev-php.conf /etc/nginx/sites-available/$DOMAIN
 sed -i "s/DOMAINNAME/$DOMAIN/g" /etc/nginx/sites-available/$DOMAIN
@@ -45,3 +45,4 @@ chown -h www-data:www-data /var/www/$DOMAIN
 
 service php$PHPVERSION-fpm reload
 service nginx reload
+echo "Password: $HTPASS"
