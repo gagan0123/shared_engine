@@ -1,7 +1,8 @@
 #Config for the shared engine
 
 #read PHPVERSION
-PHPVERSION=7.0
-#We're sticking with 7.0 as its the stable release, 7.1 is beta release
+export PHPVERSION=7.3
 
+#read DKIM_SELECTOR
+export DKIM_SELECTOR=$HOSTNAME
 
