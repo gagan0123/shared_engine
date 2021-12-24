@@ -8,7 +8,7 @@ USERNAME=${DB}_$USER_SUFFIX
 DBPASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 30 | head -n 1)
 mysql -e "CREATE DATABASE $DBNAME"
 mysql -e "CREATE USER $USERNAME@localhost identified by '$DBPASS'"
-mysql -e "GRANT ALL ON $DBNAME.* TO $USERNAME@localhost"
+mysql -e "GRANT ALL ON $DBNAME.* TO $USERNAME@localhost identified by '$DBPASS'"
 echo "Database Created"
 echo "DB: $DBNAME"
 echo "USER: $USERNAME"
