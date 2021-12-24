@@ -1,7 +1,7 @@
 #Config for the shared engine
 
 #read PHPVERSION
-export PHPVERSION=7.3
+export PHPVERSION=7.4
 
 #read DKIM_SELECTOR
 export DKIM_SELECTOR=$HOSTNAME
